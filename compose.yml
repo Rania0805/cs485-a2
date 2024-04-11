@@ -9,3 +9,7 @@ services:
     image: wordpress
     ports:
       - 80:80
+  filebrowser:
+    image: filebrowser/filebrowser
+    ports:
+      - 80:80
