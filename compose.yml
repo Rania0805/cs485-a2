@@ -1,0 +1,11 @@
+services:
+  mariadb:
+    image: mariadb:10.4
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+  wordpress:
+    image: wordpress
+    ports:
+      - 80:80
