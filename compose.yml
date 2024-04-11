@@ -10,8 +10,7 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
-    volumes:
-      - wordpress_data:/var/www/html  #  volume for WordPress files
+   
 
   db:
     image: mariadb:latest
@@ -24,5 +23,5 @@ services:
       - mariadb_data:/var/lib/mysql  # for MariaDB data
 
 volumes:
-  wordpress_data:
+
   mariadb_data:
