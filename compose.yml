@@ -1,0 +1,28 @@
+
+services:
+  wordpress:
+    image: wordpress:latest
+    
+    ports:
+      - "8000:80"  #port 80 of the host
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html  #  volume for WordPress files
+
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - mariadb_data:/var/lib/mysql  # for MariaDB data
+
+volumes:
+  wordpress_data:
+  mariadb_data:
