@@ -17,12 +17,10 @@ services:
       - WORDPRESS_DB_HOST=mariadb
       - WORDPRESS_DB_USER=root
       - WORDPRESS_DB_PASSWORD=secret
-  # filebrowser:
-  #   image: filebrowser/filebrowser
-  #   labels:
-  #     - "host=filebrowser"
-  #   ports:
-  #     - 80:80
+  filebrowser:
+    image: filebrowser/filebrowser
+    ports:
+      - 80:80
   # reverse-proxy:
   #     image: traefik
   #     command: --configFile=<wherever you mounted the config file>
