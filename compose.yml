@@ -10,21 +10,32 @@ services:
   wordpress:
     image: wordpress
     labels:
+      - traefik.enable=true
       - "host=wordpress"
     environment:
       - WORDPRESS_DB_HOST=mariadb
       - WORDPRESS_DB_USER=root
       - WORDPRESS_DB_PASSWORD=secret
-  filebrowser:
-    image: filebrowser/filebrowser
+  drupal:
+    image: drupal
     labels:
-      - "host=filebrowser"
+      - traefik.enable=true
+      - "host=drupal"
+    volumes:
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      # this takes advantage of the feature in Docker that a new anonymous
+      # volume (which is what we're creating here) will be initialized with the
+      # existing content of the image at the same location
+      - /var/www/html/sites
+    restart: always
   traefik:
       image: traefik
       command: --configFile=/var/traefik/traefik.yaml
       volumes:
+        - ./api.yaml:/data/api.yaml
         - ./traefik.yaml:/var/traefik/traefik.yaml
         - /var/run/docker.sock:/var/run/docker.sock
-        - /data/logs:/var/log
       ports:
-        - "8080:80"
+        - 80:80
