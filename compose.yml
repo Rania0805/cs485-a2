@@ -11,21 +11,20 @@ services:
     image: wordpress
     labels:
       - "host=wordpress"
-    ports:
-      - 80:80
     environment:
       - WORDPRESS_DB_HOST=mariadb
       - WORDPRESS_DB_USER=root
       - WORDPRESS_DB_PASSWORD=secret
   filebrowser:
     image: filebrowser/filebrowser
-    ports:
-      - 80:80
-  # reverse-proxy:
-  #     image: traefik
-  #     command: --configFile=<wherever you mounted the config file>
-  #     volumes:
-  #       - ./traefik.yaml:/some!place@in*the?container
-  #       - /var/run/docker.sock:/var/run/docker.sock
-  #     ports:
-  #       - 80:80
+    labels:
+      - "host=filebrowser"
+  traefik:
+      image: traefik
+      command: --configFile=/var/traefik/traefik.yaml
+      volumes:
+        - ./traefik.yaml:/var/traefik/traefik.yaml
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /data/logs:/var/log
+      ports:
+        - "8080:80"
