@@ -2,22 +2,32 @@ services:
   mariadb:
     image: mariadb:10.4
     volumes:
-      - ./database:/var/lib/mysql
+      - ./database:/var/lib/mysql     
     environment:
       - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=root
   wordpress:
-    image: traefik/wordpress
+    image: wordpress
     labels:
       - "host=wordpress"
-  filebrowser:
-    image: filebrowser/filebrowser
-    labels:
-      - "host=filebrowser"
-  reverse-proxy:
-      image: traefik
-      command: --configFile=<wherever you mounted the config file>
-      volumes:
-        - ./traefik.yaml:/some!place@in*the?container
-        - /var/run/docker.sock:/var/run/docker.sock
-      ports:
-        - 80:80
+    ports:
+      - 80:80
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_USER=root
+      - WORDPRESS_DB_PASSWORD=secret
+  # filebrowser:
+  #   image: filebrowser/filebrowser
+  #   labels:
+  #     - "host=filebrowser"
+  #   ports:
+  #     - 80:80
+  # reverse-proxy:
+  #     image: traefik
+  #     command: --configFile=<wherever you mounted the config file>
+  #     volumes:
+  #       - ./traefik.yaml:/some!place@in*the?container
+  #       - /var/run/docker.sock:/var/run/docker.sock
+  #     ports:
+  #       - 80:80
